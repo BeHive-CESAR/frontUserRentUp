@@ -1,74 +1,84 @@
 import streamlit as st
-import json, os
+import requests
 from PIL import Image
-import webbrowser
+import pandas as pd
+import numpy as np
+import json
+import base64
 
-# FUNÇÃO DE LOGIN
-# OBS¹: FUNÇÃO DE LOGIN SERÁ MODIFICADA PARA SER COMPATÍVEL COM A API, ESSA É SÓ PRA TESTAR !!! 
-# OBS²: Pra logar como adm ou usuário
+# Configuração da página
+st.set_page_config(page_title='Rent Up', layout='wide')
 
-def login():
-    st.warning('Adminstrador ou usuário: email = "email",  senha = "senha"')
-    tipo = st.selectbox('Tipo de usuário', ('Administrador', 'Aluno ou Professor'), index=1)
 
-    #Se for administrador, redireciona para a outra aplicação
-    if tipo == 'Administrador':
-        st.link_button("Fazer login como Administrador", "https://rentup-adm.streamlit.app")
-       
+def get_image_as_base64(filepath):
+    with open(filepath, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode('utf-8')
 
-    #Se for administrador, pede pra preencher o forms de login
-    else:
-        with st.form("loginForms", True):
-            email = st.text_input('Email')
-            senha = st.text_input('Senha',  type="password")
-            submitted = st.form_submit_button("Enviar")
-            if submitted: #substituir pelo metodo de auth da API
-                if email == 'email' and senha == 'senha':
-                    data = {
-                        "usuario": {
-                            "email": email,
-                            "senha": senha
-                        }
-                    }
+def local_css(file_name):
+    with open(file_name, 'r', encoding='utf-8') as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-                    # Cria um arquivo json para salvar os dados do usuário logado e salvar o status de "logado"
-                    with open('auth_user.json', 'w') as json_file:
-                        json.dump(data, json_file, indent=4)
-                        st.rerun()
+def remote_css(url):
+    st.markdown(f'<link href="{url}" rel="stylesheet">', unsafe_allow_html=True)
 
-                    
-                    return True
-                else:
-                    st.error('Credenciais inválidas')
-                    return False
+def icon(icon_name):
+    return f'<i class="material-icons">{icon_name}</i>'
 
-# Se o usuário já estiver logado, o forms de login não aparecerá
-if os.path.exists('auth_user.json'):
+local_css("style.css")
+remote_css('https://fonts.googleapis.com/icon?family=Material+Icons')
 
-    #Definindo a sidebar global da interface do adm
-    with st.sidebar:
-        #page = st.selectbox('Selecione uma página:', ('Inventário', 'Dashboard')) -> Substituir as páginas pelas as de usuário
+encoded_image = get_image_as_base64('img/logo.png')
 
-        #Se o usuário deslogar, o arquivo json é removido e pede para fazer login novamente
-        if st.button("Logout"):
-            os.remove('auth_user.json')
-            st.rerun()
+# Custom header com a imagem codificada em base64
+st.markdown(f"""
+    <div class="header">
+        <img src="data:image/png;base64,{encoded_image}" class="logo">
+        <div class="search-box">
+            <span class="material-icons">search</span>
+            <input type="text" class="search-input" placeholder="Procure por algo">
+        </div>
+        <span class="material-icons icon">account_circle</span>
+        <span class="material-icons icon">shopping_cart</span>
+    </div>
+    <div class="navigation">
+        <button class="nav-btn active">HOME</button>
+        <button class="nav-btn">CATEGORIAS</button>
+        <button class="nav-btn">DESTAQUES</button>
+        <button class="nav-btn">SUPORTE</button>
+        <button class="nav-btn">MINHA CONTA</button>
+    </div>
+""", unsafe_allow_html=True)
 
-    # Editar de acordo com as páginas disponíveis
-    # if page == 'Dashboard':
-    #     dashboard.dashboard()
-    # elif page == 'Inventário':
-    #     inventario.inventario()
+# Barra de navegação secundária
+st.markdown("""
+<div class="secondary-nav">
+        <button class="sec-nav-btn active">Mais buscados</button>
+        <button class="sec-nav-btn">Novidades</button>
+        <button class="sec-nav-btn">Kits Arduinos</button>
+        <button class="sec-nav-btn">Fórum GARAgino</button>
+    </div>
+""", unsafe_allow_html=True)
 
-# Enquanto o usuário não estiver logado, irá pedir para preencher o forms de  login
-else:
-    # HEADER DO SITE #
-    logo_container = st.container()
-    col1, col2, col3 = st.columns(3)
-
-    with logo_container:
-        with col2:
-            image = Image.open('img/logo.png')
-            st.image(image, width=150)
-            
-    login()
+# Footer
+st.markdown("""
+    <div class="footer">
+        <div class="footer-section">
+            <h5>Quem somos</h5>
+            <a href="#">Conheça a RentUp</a>
+            <a href="#">Nossos produtos</a>
+            <a href="#">Lorem ipsum</a>
+        </div>
+        <div class="footer-section">
+            <h5>Comunidade</h5>
+            <a href="#">Garagem</a>
+            <a href="#">GaRAgino</a>
+            <a href="#">Lorem ipsum</a>
+        </div>
+        <div class="footer-section">
+            <h5>Ajuda</h5>
+            <a href="#">Falar com suporte</a>
+            <a href="#">Lorem ipsum</a>
+            <a href="#">Lorem ipsum</a>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
