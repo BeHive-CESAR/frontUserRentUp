@@ -14,7 +14,7 @@ def login():
     #Se for administrador, redireciona para a outra aplicação
     if tipo == 'Administrador':
         st.write(f"Redirecionando para login de {tipo}...")
-        webbrowser.open('https://rentup.streamlit.app')
+        webbrowser.open('https://rentup-adm.streamlit.app')
 
     #Se for administrador, pede pra preencher o forms de login
     else:
