@@ -1,0 +1,25 @@
+
+/* Botão de adicionar item */
+.row-widget.stButton {
+    text-align: left;
+    width: 335.2px;
+    padding-top: 1.8em;
+}
+
+@media only screen and (max-width: 640px){
+    .row-widget.stButton{
+        text-align: start;
+    }
+}
+
+/* Botão de add itens */
+.st-emotion-cache-19rxjzo{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+/* Select box de editar itens */
+.st-emotion-cache-1qg05tj{
+        min-height: auto;
+}
+

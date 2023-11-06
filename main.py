@@ -4,12 +4,14 @@ from PIL import Image
 import webbrowser
 
 # FUNÇÃO DE LOGIN
-# !!! FUNÇÃO DE LOGIN SERÁ MODIFICADA PARA SER COMPATÍVEL COM A API, ESSA É SÓ PRA TESTAR !!! 
+# OBS¹: FUNÇÃO DE LOGIN SERÁ MODIFICADA PARA SER COMPATÍVEL COM A API, ESSA É SÓ PRA TESTAR !!! 
+# OBS²: Pra logar como adm ou usuário
 
 def login():
-    tipo = st.selectbox('Tipo de usuário', ('Administrador', 'Aluno/Professor'))
+    st.warning('Adminstrador ou usuário: email = "email",  senha = "senha"')
+    tipo = st.selectbox('Tipo de usuário', ('Administrador', 'Aluno/Professor'), index=1)
 
-    #Se for aluno ou professor, redireciona para a outra aplicação
+    #Se for administrador, redireciona para a outra aplicação
     if tipo == 'Administrador':
         st.write(f"Redirecionando para login de {tipo}...")
         webbrowser.open('https://rentup.streamlit.app')
@@ -21,7 +23,7 @@ def login():
             senha = st.text_input('Senha',  type="password")
             submitted = st.form_submit_button("Enviar")
             if submitted: #substituir pelo metodo de auth da API
-                if email == 'nome' and senha == 'senha':
+                if email == 'email' and senha == 'senha':
                     data = {
                         "usuario": {
                             "email": email,
