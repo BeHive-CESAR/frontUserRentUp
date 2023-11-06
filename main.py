@@ -9,12 +9,12 @@ import webbrowser
 
 def login():
     st.warning('Adminstrador ou usuário: email = "email",  senha = "senha"')
-    tipo = st.selectbox('Tipo de usuário', ('Administrador', 'Aluno/Professor'), index=1)
+    tipo = st.selectbox('Tipo de usuário', ('Administrador', 'Aluno ou Professor'), index=1)
 
     #Se for administrador, redireciona para a outra aplicação
     if tipo == 'Administrador':
-        st.write(f"Redirecionando para login de {tipo}...")
-        webbrowser.open('https://rentup-adm.streamlit.app')
+        st.link_button("Fazer login como Administrador", "https://rentup-adm.streamlit.app")
+       
 
     #Se for administrador, pede pra preencher o forms de login
     else:
