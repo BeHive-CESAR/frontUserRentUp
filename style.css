@@ -1,148 +1,31 @@
-/* style.css */
-/* Estilos básicos */
-* {
-    box-sizing: border-box;
-}
-
+/* CSS global */
 body {
-    color: #fff;
-    background-color: #4F8BF9;
-    margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
 }
-/* Header */
-.header {
+
+/* Centralizar o conteúdo */
+.container {
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between; /* Isso distribui o espaço igualmente */
-    padding: 10px;
-    background-color: #fff; /* Cor de fundo do header */
-    border-radius: 10px; /* Bordas arredondadas para o header */
+    text-align: center;
 }
 
-/* Ícones usuário e carrinho */
-.icon {
-    padding: 0 16px; /* Ajusta o espaço em torno dos ícones */
-    font-size: 24px; /* Ajusta o tamanho dos ícones */
-    color: #4F8BF9; /* Cor dos ícones */
-    cursor: pointer; /* Muda o mouse para mostrar que são clicáveis */
-}
-
-.logo {
-    width: 100px;
-    margin-right: 20px; /* Espaço entre o logo e a barra de pesquisa */
-}
-
-.search-input {
-    flex: 1;
-    border: none; /* Remove a borda interna */
-    outline: none; /* Remove o contorno ao focar */
-    padding-left: 10px;
-    font-size: 16px; /* Tamanho da fonte*/
-}
-
-.search-box {
-    display: flex;
-    align-items: center;
-    border: 2px solid #ccc; /* Borda ao redor da caixa de pesquisa */
-    padding: 10px; /* Mudar o padding para aumentar o tamanho */
-    border-radius: 50px; /* Bordas redonda */
-    width: -webkit-fill-available; /* Isso vai ocupar todo o espaço que tem disponivel */
-}
-
-.material-icons {
-    color: #ff6347;
-    vertical-align: middle; /* Alinha os icones verticalmente */
-    padding-right: 5px; /* Espaço à direita do ícone */
-}
-
-/* Navegação dos botôes */
-.navigation {
-    display: flex;
-    justify-content: space-around; /* Distribui os botões igualmente */
-    margin-top: 10px; /* Espaço entre os botões e a barra de pesquisa */
-}
-
-.nav-btn {
-    background-color: transparent; /* Botões transparentes */
-    border: none; /* Sem bordas */
-    padding: 10px 20px; /* Espaçamento interno */
-    font-size: 16px; /* Tamanho do texto */
-    cursor: pointer; /* tipo do mouse */
-    color: #ff6347; /* Cor do texto */
-    border-bottom: 3px solid transparent; /* Prepara a borda inferior para o estado ativo */
-    transition: all 0.3s ease; /* Animação para interações */
-}
-
-.nav-btn:hover {
-    border-bottom: 3px solid #ff6347; /* Sublinha ao passar o mouse */
-}
-
-.nav-btn:focus {
-    outline: none;
-}
-
-.nav-btn.active {
-    border-bottom: 3px solid #ff6347; /* Cor da borda inferior para o botão que ta ativo */
-    color: #ff6347; /* Cor do texto para o botão que ta ativo */
-}
-
-/* Estilos para a navegação secundária */
-.secondary-nav {
-    background-color: #f0f0f0; /* Cor de fundo cinza claro */
-    padding: 30px 0; /* Espaço superior e inferior */
-    display: flex;
-    justify-content: center; /* Centraliza os itens na horizontal */
-}
-
-.sec-nav-btn {
-    padding: 10px 20px; /* Espaçamento interno */
-    text-decoration: none; /* Remove o sublinhado do link */
-    margin-right: 60px; /* Espaçamento à direita */
-    text-decoration: none;
-    background-color: #cfcdcd; /* Cor de fundo dos itens */
-    border-radius: 10px; /* Bordas redonda */
+/* Estilizar os botões */
+button {
+    color: white; /* Cor do texto */
     border: none;
-    transition: background-color 0.3s; /* Transição suave para o hover */
-    color: #333; /* Cor do texto */
-    font-weight: bold; /* Deixa o texto em negrito */
-    text-align: center; /* Centraliza o texto */
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 8px; /* Bordas arredondadas */
 }
 
-.sec-nav-btn:last-child {
-    margin-right: 0;
-}
-
-.sec-nav-btn:hover {
-    background-color: #a5a4a4; /* Cor de fundo ao passar o mouse */
-}
-
-/* Footer */
-.footer {
-    display: flex;
-    justify-content: space-around; /* Espaço igual entre as seções */
-    padding: 20px;
-    background-color: #333; /* Fundo escuro para o footer */
-    color: #fff; /* Texto branco */
-}
-
-.footer-section {
-    display: flex;
-    flex-direction: column; /* Itens em coluna */
-}
-
-.footer-section h5 {
-    margin-bottom: 15px; /* Espaço abaixo do título da seção */
-    font-size: 18px; /* Tamanho da fonte para o título da seção */
-}
-
-.footer-section a {
-    color: #fff; /* Links brancos */
-    text-decoration: none; /* Sem sublinhado nos links */
-    margin-bottom: 10px; /* Espaço entre os links */
-    font-size: 14px; /* Tamanho da fonte para os links */
-}
-
-.footer-section a:hover {
-    text-decoration: underline; /* Sublinhado ao passar o mouse */
+button:hover {
+    background-color: #f7b2b2; /* Cor de fundo ao passar o mouse */
 }
