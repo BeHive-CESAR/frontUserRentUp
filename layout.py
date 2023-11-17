@@ -28,7 +28,8 @@ def render_header(unique_key=""): # unique_key é usado para criar chaves única
 
     with header_col4:
         if st.button("Carrinho"):
-            st.session_state['current_page'] = 'carrinho'
+            st.session_state['current_page'] = 'cart'
+            st.experimental_rerun()
 
 # Renderiza a Sidebar
 def render_sidebar():

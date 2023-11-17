@@ -7,16 +7,16 @@ import json
 import base64
 from layout import render_header, render_sidebar
 
-# Dunção placeholder ate eu aprender a usar a API
+# Função placeholder ate eu aprender a usar a API
 def get_dummy_data():
    
     return [
-        {'nome': 'Arduino Starter Kit TC-2', 'descricao': 'Contém 10 itens', 'categoria': 'Kits Arduinos'},
-        {'nome': 'Arduino Starter Kit', 'descricao': 'Contém 10 itens', 'categoria': 'Kits Arduinos'},
-        {'nome': 'Arduino Intermed Kit', 'descricao': 'Contém 10 itens', 'categoria': 'Kits Arduinos'},
-        {'nome': 'Arduino Master Kit', 'descricao': 'Contém 10 itens', 'categoria': 'Kits Arduinos'},
-        {'nome': 'Arduino Master Kit V2', 'descricao': 'Contém 10 itens', 'categoria': 'Kits Arduinos'},
-        {'nome': 'Arduino Kit', 'descricao': 'Contém 10 itens', 'categoria': 'Kits Arduinos'},
+        {'nome': 'Arduino Starter Kit TC-2', 'descricao': 'Lorem Ipsum','disponibilidade': '10','categoria': 'Kits Arduinos'},
+        {'nome': 'Arduino Starter Kit', 'descricao': 'Lorem Ipsum','disponibilidade': '10', 'categoria': 'Kits Arduinos'},
+        {'nome': 'Arduino Intermed Kit', 'descricao': 'Lorem Ipsum','disponibilidade': '10', 'categoria': 'Kits Arduinos'},
+        {'nome': 'Arduino Master Kit', 'descricao': 'Lorem Ipsum','disponibilidade': '10', 'categoria': 'Kits Arduinos'},
+        {'nome': 'Arduino Master Kit V2', 'descricao': 'Lorem Ipsum','disponibilidade': '10', 'categoria': 'Kits Arduinos'},
+        {'nome': 'Arduino Kit', 'descricao': 'Lorem Ipsum','disponibilidade': '10', 'categoria': 'Kits Arduinos'},
     ]
 
 # Página de categorias
@@ -55,8 +55,8 @@ def mostrar_pagina_categorias():
         itens_filtrados = [item for item in itens if item['categoria'] == st.session_state['categoria_selecionada']]
 
         st.write(f"{len(itens_filtrados)} resultados para {st.session_state['categoria_selecionada']}")
+
         # Organizar itens em uma grade
-        # Aqui você pode definir quantas colunas por linha você quer, por exemplo, 3
         num_columns = 3
         rows = [itens_filtrados[i:i+num_columns] for i in range(0, len(itens_filtrados), num_columns)]
 
@@ -65,8 +65,16 @@ def mostrar_pagina_categorias():
             for index, item in enumerate(row):
                 with cols[index]:
                     st.subheader(item['nome'])
+                    st.write(f"Disponibilidade: {item['disponibilidade']}")
                     st.write(item['descricao'])
-                    st.button("Solicitar", key=f"btn_solicitar_{item['nome']}") # Ainda não faz nada
+                    # Adicione um evento no botão que atualiza o estado da sessão e faz um rerun
+                    if st.button("Solicitar", key=f"btn_solicitar_{item['nome']}"):
+                        # Atualiza a página atual no estado da sessão
+                        st.session_state['current_page'] = 'item_request'
+                        # Armazena os dados do item atual no estado da sessão
+                        st.session_state['current_item'] = item
+                        # Força o Streamlit a fazer um rerun para atualizar a página
+                        st.experimental_rerun()
 
                 
 

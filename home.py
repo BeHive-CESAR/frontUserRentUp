@@ -13,7 +13,7 @@ def run_home_page():
     sec_nav_buttons = ['Mais buscados', 'Novidades', 'Kits Arduinos', 'Fórum GARAgino']
 
     # Cria espaçamento à esquerda
-    st.write("")  # Isso cria um espaço vazio antes dos botões
+    st.write("")  # Cria um espaço vazio antes dos botões
 
     # Define o número de colunas incluindo espaços vazios (pra ficar bonitinho e centralizado)
     cols = st.columns((1, *([2] * len(sec_nav_buttons)), 1))
