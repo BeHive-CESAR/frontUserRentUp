@@ -1,26 +1,13 @@
 import streamlit as st
-import requests
-from PIL import Image
-import pandas as pd
-import numpy as np
-import json
-import base64
+import api_manager
 from layout import render_header, render_sidebar
 
-# Função placeholder ate eu aprender a usar a API
-def get_dummy_data():
-   
-    return [
-        {'nome': 'Arduino Starter Kit TC-2', 'descricao': 'Lorem Ipsum','disponibilidade': '10','categoria': 'Kits Arduinos'},
-        {'nome': 'Arduino Starter Kit', 'descricao': 'Lorem Ipsum','disponibilidade': '10', 'categoria': 'Kits Arduinos'},
-        {'nome': 'Arduino Intermed Kit', 'descricao': 'Lorem Ipsum','disponibilidade': '10', 'categoria': 'Kits Arduinos'},
-        {'nome': 'Arduino Master Kit', 'descricao': 'Lorem Ipsum','disponibilidade': '10', 'categoria': 'Kits Arduinos'},
-        {'nome': 'Arduino Master Kit V2', 'descricao': 'Lorem Ipsum','disponibilidade': '10', 'categoria': 'Kits Arduinos'},
-        {'nome': 'Arduino Kit', 'descricao': 'Lorem Ipsum','disponibilidade': '10', 'categoria': 'Kits Arduinos'},
-    ]
+# Função para filtrar itens por categoria
+def filtrar_itens_por_categoria(itens, categoria_selecionada):
+    return [item for item in itens if item['categoria'] == categoria_selecionada]
 
 # Página de categorias
-def mostrar_pagina_categorias():
+def mostrar_pagina_categorias(itens):
     # Inicializa a categoria default (que a gente colocar aqui) no estado da sessão se ela ainda não existir
     if 'categoria_selecionada' not in st.session_state:
         st.session_state['categoria_selecionada'] = 'Arduino'
@@ -38,21 +25,12 @@ def mostrar_pagina_categorias():
             if st.button(categoria, key=categoria):
                 st.session_state['categoria_selecionada'] = categoria
 
-        st.subheader("Filtrar por Voltagem")
-        if st.button('110V', key='110V'):
-            # lógica de filtrar por voltagem aqui (se ainda for ter no produto final ne)
-            pass
-        if st.button('220V', key='220V'):
-            # lógica de filtrar por voltagem aqui (se ainda for ter no produto final ne)
-            pass
+        # Adicionar mais filtros conforme necessário
 
     # Itens
     with col2:
-        # Dados simulados dos itens (a ser substituído pela chamada da API)
-        itens = get_dummy_data()
-
         # Filtrar itens pela categoria selecionada
-        itens_filtrados = [item for item in itens if item['categoria'] == st.session_state['categoria_selecionada']]
+        itens_filtrados = filtrar_itens_por_categoria(itens, st.session_state['categoria_selecionada'])
 
         st.write(f"{len(itens_filtrados)} resultados para {st.session_state['categoria_selecionada']}")
 
@@ -74,10 +52,7 @@ def mostrar_pagina_categorias():
                         # Armazena os dados do item atual no estado da sessão
                         st.session_state['current_item'] = item
                         # Força o Streamlit a fazer um rerun para atualizar a página
-                        st.experimental_rerun()
-
-                
 
 # Chamada da função que mostra a página de categorias
 if __name__ == "__main__":
-    mostrar_pagina_categorias()
+    mostrar_pagina_categorias([])

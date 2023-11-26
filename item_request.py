@@ -1,11 +1,11 @@
 import streamlit as st
+import api_manager
 from layout import render_header, render_sidebar, render_footer
 
 # Esta função pode ser movida para um arquivo separado se necessário
 def show_item_request_page(item_data):
     # Cabeçalho do item
     st.header(item_data["nome"])
-
 
     st.write(f'Disponibilidade: {item_data["disponibilidade"]}')
     max_quantidade = int(item_data["disponibilidade"])
@@ -21,24 +21,40 @@ def show_item_request_page(item_data):
             add_cart = st.button("Adicionar ao carrinho")
         with col4:
             rent = st.button("Solicitar")
-        # Lógica para adicionar ao carrinho ou alugar
+        
+        # Lógica para adicionar ao carrinho
         if add_cart:
-        # Adicionar informações do item ao carrinho
+            # Adicionar informações do item ao carrinho
             cart_item = {
                 'nome': item_data['nome'],
                 'quantidade': quantidade,
-                # ... adicione outras informações relevantes do item aqui
             }
             # Adiciona o item ao carrinho no estado da sessão
+            if 'cart' not in st.session_state:
+                st.session_state.cart = []
             st.session_state.cart.append(cart_item)
             st.success(f"{item_data['nome']} adicionado ao carrinho com sucesso!")
-            # Redireciona para a página do carrinho
-            st.session_state['current_page'] = 'cart'
-            st.experimental_rerun()
 
+        # Lógica para solicitar o aluguel do item
         if rent:
-            st.success("Solicitação de aluguel enviada!")
-            # Implemente a lógica de aluguel aqui
+            if 'auth_token' in st.session_state and st.session_state['auth_token']:
+                rent_successful = api_manager.rent_item(
+                    token=st.session_state['auth_token'],
+                    user_email="email@example.com",  # Substitua pelo e-mail do usuário logado
+                    item_name=item_data['nome'],
+                    rent_date="2023-01-01T00:00:00Z",  # Substitua pela data e hora desejada
+                    status="WAITING"
+                )
+                if rent_successful:
+                    st.success("Solicitação de aluguel enviada!")
+                else:
+                    st.error("Falha ao solicitar o aluguel. Verifique suas permissões ou tente novamente mais tarde.")
+            else:
+                st.error("Você precisa estar logado para solicitar um aluguel.")
+
     # Descrição do item
     st.subheader("Sobre o Equipamento")
     st.write(item_data["descricao"])
+
+if __name__ == "__main__":
+    show_item_request_page({'nome': 'Item Exemplo', 'disponibilidade': 10, 'descricao': 'Descrição do Item Exemplo'})

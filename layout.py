@@ -1,9 +1,8 @@
-# layout.py
 import streamlit as st
 from PIL import Image
 
-# Renderiza o Header
-def render_header(unique_key=""): # unique_key é usado para criar chaves únicas para cada página
+# Função para renderizar o Header
+def render_header(unique_key=""):
     if 'current_page' in st.session_state:
         search_key = f"search_{st.session_state['current_page']}_{unique_key}"
     else:
@@ -20,7 +19,12 @@ def render_header(unique_key=""): # unique_key é usado para criar chaves única
             st.error(f"Erro ao carregar logo: {e}")
 
     with header_col2:
-        st.text_input("", placeholder="Procure por algo", key=search_key)
+        search_input = st.text_input("", placeholder="Procure por algo", key=search_key)
+        if st.session_state.get('search_term') != search_input:
+            st.session_state['search_term'] = search_input
+            if search_input:
+                st.session_state['current_page'] = 'search_results'
+
 
     with header_col3:
         if st.button("Conta"):
@@ -31,19 +35,16 @@ def render_header(unique_key=""): # unique_key é usado para criar chaves única
             st.session_state['current_page'] = 'cart'
             st.experimental_rerun()
 
-# Renderiza a Sidebar
+# Função para renderizar a Sidebar
 def render_sidebar():
-    nav_buttons = ['HOME', 'CATEGORIAS', 'DESTAQUES', 'SUPORTE', 'MINHA CONTA']
+    nav_buttons = ['HOME', 'CATEGORIAS', 'SUPORTE', 'GUIA DE ALUGUEL']
     for button in nav_buttons:
         if st.sidebar.button(button):
             st.session_state['current_page'] = button.lower()
 
-# Redereiza o Footer
+# Função para renderizar o Footer
 def render_footer():
-    # Insere outra linha divisória
-    st.markdown("---")  
-
-    # Cria 3 colunas com subheader e botões
+    st.markdown("---")
     spacer_left, col1, col2, col3, spacer_right = st.columns([1, 2, 2, 2, 1])
     with col1:
         st.subheader("Quem somos")
@@ -63,7 +64,6 @@ def render_footer():
         st.button("Reportar problema", key="reportar_problema")
         st.button("Suporte", key="suporte")
 
-    # Insere uma linha divisória
     st.markdown("""---""") 
     footer_col1, footer_col2, footer_col3 = st.columns([6, 5, 5])
     with footer_col2:
