@@ -33,7 +33,6 @@ def render_header(unique_key=""):
     with header_col4:
         if st.button("Carrinho"):
             st.session_state['current_page'] = 'cart'
-            st.experimental_rerun()
 
 # Função para renderizar a Sidebar
 def render_sidebar():

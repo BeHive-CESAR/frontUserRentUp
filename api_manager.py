@@ -1,5 +1,6 @@
 # api_manager.py
 import requests
+from urllib.parse import quote
 
 # Configurações da API
 BASE_URL = "https://rentup.up.railway.app"
@@ -24,27 +25,28 @@ def login(email, password):
 
 # Obtém uma lista de todos os itens disponíveis.
 def get_all_items(token):
-    endpoint = "/itens/all"
+    endpoint = "/item/get-items"
     headers = {"Authorization": f"Bearer {token}"}
     response = requests.get(f"{BASE_URL}{endpoint}", headers=headers)
     return response.json() if response.status_code == 200 else []
 
-# Busca um item específico pelo nome.
-# Busca itens pelo nome
-def get_item_by_name(token, search_term):
-    endpoint = f"/itens/search?name={search_term}"
+def get_item_by_name(token, nome_do_item):
+    nome_do_item_codificado = quote(nome_do_item)  # Codifica o nome do item para a URL
+    endpoint = f"/item/get-item-by-name?item={nome_do_item_codificado}"
+    url = f"{BASE_URL}{endpoint}"
     headers = {"Authorization": f"Bearer {token}"}
+
     try:
-        response = requests.get(f"{BASE_URL}{endpoint}", headers=headers)
+        response = requests.get(url, headers=headers)
+        print("URL da requisição:", response.json())
         if response.status_code == 200:
-            return response.json()  # Supondo que a API retorna uma lista de itens
+            return response.json()
         else:
-            # Imprime a resposta para ajudar na depuração
-            print("Erro ao buscar itens:", response.text)
-            return []
+            print(f"Item com o nome {nome_do_item} não encontrado no estoque. Status Code: {response.status_code}")
+            return None
     except requests.RequestException as e:
         print(f"Erro na requisição: {e}")
-        return []
+        return None
 
 # Realiza um novo empréstimo de item.
 def rent_item(token, user_email, item_name, rent_date, status="WAITING"):

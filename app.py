@@ -15,22 +15,9 @@ from search_results import show_search_results
 # Inicialização do estado da sessão
 if 'current_page' not in st.session_state:
     st.session_state['current_page'] = 'home'
-if 'auth_token' not in st.session_state:
-    st.session_state['auth_token'] = None
+    
+st.session_state['auth_token'] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDEwNjEzNDIsImlhdCI6MTcwMTA0MzM0Miwic3ViIjoidXNlcnRlc3RlQGNlc2FyLnNjaG9vbCJ9.PsQ_hWxrXVueKS0FunuUR0VOqduU-o5AOdTiaG_N3eE"
 
-# Função de login
-def login():
-    with st.sidebar:
-        st.subheader("Login")
-        email = st.text_input("Email")
-        password = st.text_input("Password", type="password")
-        if st.button("Login"):
-            token = api_manager.login(email, password)
-            if token:
-                st.session_state['auth_token'] = token
-                st.sidebar.success("Login bem-sucedido!")
-            else:
-                st.sidebar.error("Falha no login. Verifique suas credenciais.")
 
 # Função para controle da navegação das páginas
 def navigation_control():
@@ -45,7 +32,7 @@ def navigation_control():
             st.error("Por favor, faça login para visualizar as categorias.")
     elif st.session_state['current_page'] == 'item_request':
         item_data = st.session_state.get('current_item', None)
-        if item_data is not None:
+        if item_data:
             show_item_request_page(item_data)
         else:
             st.error("Erro: Dados do item não encontrados.")
@@ -61,7 +48,6 @@ def navigation_control():
 
 # Função principal para executar o aplicativo
 def main():
-    login()  # Chamada da função de login
     render_header("main")
     render_sidebar()
     navigation_control()
