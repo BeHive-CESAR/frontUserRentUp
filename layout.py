@@ -22,7 +22,7 @@ def render_header(unique_key=""):
         search_input = st.text_input("", placeholder="Procure por algo", key=search_key)
         if st.session_state.get('search_term') != search_input:
             st.session_state['search_term'] = search_input
-            if search_input:
+            if search_input and len(search_input) > 0:
                 st.session_state['current_page'] = 'search_results'
 
 
@@ -36,7 +36,7 @@ def render_header(unique_key=""):
 
 # Função para renderizar a Sidebar
 def render_sidebar():
-    nav_buttons = ['HOME', 'CATEGORIAS', 'SUPORTE', 'GUIA DE ALUGUEL']
+    nav_buttons = ['HOME', 'LOGOUT']
     for button in nav_buttons:
         if st.sidebar.button(button):
             st.session_state['current_page'] = button.lower()

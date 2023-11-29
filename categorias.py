@@ -8,6 +8,8 @@ def filtrar_itens_por_categoria(itens, categoria_selecionada):
 
 # Página de categorias
 def mostrar_pagina_categorias(itens):
+    token = api_manager.get_token()
+    
     # Inicializa a categoria default (que a gente colocar aqui) no estado da sessão se ela ainda não existir
     if 'categoria_selecionada' not in st.session_state:
         st.session_state['categoria_selecionada'] = 'Arduino'

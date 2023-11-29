@@ -4,6 +4,8 @@ import api_manager
 from datetime import date, datetime, timedelta
 
 def show_cart_page():
+    token = api_manager.get_token()
+    
     if 'cart' not in st.session_state:
         st.session_state.cart = []
 
@@ -27,7 +29,7 @@ def show_cart_page():
         return_date = st.date_input("Insira a data de devolução", min_value=default_return_date, value=default_return_date)
 
         if st.button("Fazer Solicitação"):
-            if 'auth_token' in st.session_state and st.session_state['auth_token']:
+            if api_manager.check_status:
                 all_rent_successful = True
                 return_datetime = datetime.combine(return_date, datetime.min.time())  # Combina a data com o horário mínimo (00:00:00)
                 rent_date = return_datetime.isoformat() + "Z"  # Adiciona 'Z' para indicar UTC
@@ -35,7 +37,7 @@ def show_cart_page():
                 for item in cart_items:
                     for _ in range(item['quantidade']):
                         rent_successful = api_manager.rent_item(
-                            token=st.session_state['auth_token'],
+                            token= token,
                             user_email="userteste@cesar.school",  # Substituir pelo e-mail do usuário logado
                             item_name=item['nome'],
                             rent_date=rent_date,

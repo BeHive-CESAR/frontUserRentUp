@@ -1,27 +1,24 @@
 # api_manager.py
 import requests
 from urllib.parse import quote
+import json, os
 
 # Configurações da API
 BASE_URL = "https://rentup.up.railway.app"
 
-# Autentica um usuário e retorna um token de acesso.
-def login(email, password):
-    endpoint = "/user/login"
-    data = {"email": email, "password": password}
-    try:
-        # Modifique esta linha se a API esperar JSON
-        response = requests.post(f"{BASE_URL}{endpoint}", json=data)  # Use json=data se a API esperar um JSON
+def get_token():
+    if os.path.exists('auth_user'):
+        with open("auth_user", "r") as json_file:
+            data = json.load(json_file)
+            token = data["token"]
+            return token
 
-        if response.status_code == 200:
-            return response.json().get("token")
-        else:
-            # Imprime a resposta para ajudar na depuração
-            print("Falha no login:", response.text)
-            return None
-    except requests.RequestException as e:
-        print(f"Erro na requisição: {e}")
-        return None
+def check_status():
+    if os.path.exists('auth_user'):
+        return True
+    else:
+        return False
+    
 
 # Obtém uma lista de todos os itens disponíveis.
 def get_all_items(token):

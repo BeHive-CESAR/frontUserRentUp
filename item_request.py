@@ -3,6 +3,7 @@ import api_manager
 
 # Esta função pode ser movida para um arquivo separado se necessário
 def show_item_request_page(item_data):
+    token = api_manager.get_token()
     # Cabeçalho do item
     st.header(item_data["nome_item"])
 
@@ -36,9 +37,9 @@ def show_item_request_page(item_data):
 
         # Lógica para solicitar o aluguel do item
         if rent:
-            if 'auth_token' in st.session_state and st.session_state['auth_token']:
+            if api_manager.check_status():
                 rent_successful = api_manager.rent_item(
-                    token=st.session_state['auth_token'],
+                    token=token,
                     user_email="email@example.com",  # por enquanto fica assim
                     item_name=item_data['nome_item'],
                     rent_date="2023-01-01T00:00:00Z",  # por enquanto fica assim
