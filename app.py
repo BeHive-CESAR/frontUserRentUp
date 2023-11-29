@@ -35,7 +35,7 @@ def login(): # FUNÇÃO DE LOGIN
     
     tipo = st.selectbox('Tipo de usuário', ('Aluno ou Professor', 'Administrador'))
     if tipo == 'Administrador':
-        st.link_button("Fazer login como Administrador", "https://rentup-user.streamlit.app")
+        st.link_button("Fazer login como Administrador", "https://rentup-adm.streamlit.app")
     
     else:
         with st.form("loginForms", True):  #Forms de login#
