@@ -54,6 +54,7 @@ def login(): # FUNÇÃO DE LOGIN
                 }
 
                 response = requests.post("https://rentup.up.railway.app/user/login", json=data)
+                error_mesage = response.json().get('detail')
                 
                 #Tratamento de erros
                 if response.status_code == 200: #Se o usuário for logado com sucesso 
@@ -71,11 +72,10 @@ def login(): # FUNÇÃO DE LOGIN
                         os.remove('auth_user')
                         st.error("Tipo de usuário informado não condiz com o nosso sistema")
                     else:
-                        st.session_state['auth_token'] = output['token']
                         st.rerun()
                         
                 else:
-                    st.error("Credenciais Inválidas")
+                    st.error(error_mesage)
 
         cancel_cols = st.columns([6, 1])                
         with cancel_cols[1]:
@@ -127,16 +127,17 @@ def cadastro(): #Função de cadastro
             }
                
             response = requests.post(url, json=data) #Tratamnento de erros#
+            error_mesage = response.json().get('detail')
             
             if response.status_code == 201: #Se o usuário for logado com sucesso 
                 st.session_state.cadastro = False
-                st.rerun()
+                #st.error(error_mesage)
             elif response.status_code == 400:
-                st.error('A solicitação de registro não atende aos requisitos')
+                st.error(error_mesage)
             elif response.status_code == 409:
-                st.error('Conflito de dados. O endereço de e-mail já está em uso por outro usuário.')
+                st.error(error_mesage)
             else:
-                st.error("Credenciais Inválidas")
+                st.error(error_mesage)
                     
 
 if 'cadastro' not in st.session_state:
@@ -163,6 +164,7 @@ def navigation_control():
         else:
             st.error("Por favor, faça login para buscar itens.")
     elif st.session_state['current_page'] == 'logout':
+            st.session_state['current_page'] = 'home'
             os.remove('auth_user')
             st.rerun()
             
