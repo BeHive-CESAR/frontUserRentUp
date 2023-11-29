@@ -9,7 +9,7 @@ def render_header(unique_key=""):
         st.session_state['current_page'] = 'home'
         search_key = f"search_home_{unique_key}"
 
-    header_col1, header_col2, header_col3, header_col4 = st.columns([1, 8, 1, 1]) 
+    header_col1, header_col2, header_col4 = st.columns([1, 8, 1]) 
 
     with header_col1:
         try:
@@ -26,12 +26,12 @@ def render_header(unique_key=""):
                 st.session_state['current_page'] = 'search_results'
 
 
-    with header_col3:
-        if st.button("Conta"):
-            st.session_state['current_page'] = 'conta'
+    #with header_col3:
+    #    if st.button("Conta"):
+    #        st.session_state['current_page'] = 'conta'
 
     with header_col4:
-        if st.button("Carrinho"):
+        if st.button("Sacola"):
             st.session_state['current_page'] = 'cart'
 
 # Função para renderizar a Sidebar

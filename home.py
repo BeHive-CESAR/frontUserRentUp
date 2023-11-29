@@ -28,11 +28,9 @@ def run_home_page():
             df = pd.DataFrame(items['itens'])
             df.columns = ['Item', 'Total', 'Em estoque', 'Disponíveis', 'Emprestados', 'Quebrados', 'Descrição', 'Imagem']
            
-            df = df.drop(columns=['Imagem'])
+            df = df.drop(columns=['Total','Em estoque', 'Emprestados', 'Quebrados','Imagem'])
             st.dataframe(df, hide_index=True)
             
-            
-
         else:
             st.write("Nenhum item disponível no momento.")
     else:

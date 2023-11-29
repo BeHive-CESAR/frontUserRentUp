@@ -11,7 +11,7 @@ def show_cart_page():
 
     cart_items = st.session_state.cart
     if cart_items:
-        st.subheader(f"Carrinho: {len(cart_items)} itens")
+        st.subheader(f"Sacola: {len(cart_items)} itens")
         for i, item in enumerate(cart_items):
             col1, col2, col3 = st.columns([3, 1, 1])
             with col1:
@@ -21,7 +21,7 @@ def show_cart_page():
             with col3:
                 if st.button("Remover", key=f"remove_{i}"):
                     cart_items.pop(i)
-                    st.experimental_rerun()
+                    st.rerun()
 
         # Seleção da data de devolução
         st.subheader("Finalizar Solicitação")

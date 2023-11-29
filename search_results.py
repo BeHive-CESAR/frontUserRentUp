@@ -26,7 +26,7 @@ def show_search_results(search_term, token):
                         'nome': item['nome_item'],
                         'quantidade': 1  # Define a quantidade inicial como 1
                     })
-                    st.success(f"{item['nome_item']} adicionado ao carrinho.")
+                    st.success(f"{item['nome_item']} adicionado a sacola.")
                 
                 # Botão 'Mostrar detalhes'
                 if st.button("Mostrar detalhes", key=f"details_{item['nome_item']}"):
